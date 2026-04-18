@@ -3,14 +3,12 @@
 Generate formatted DOCX for Calvince Odhiambo BBM 415 CAT
 Moi University - Management of Financial Institutions
 """
-import os
 
 from docx import Document
 from docx.shared import Pt, Inches, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
-os.makedirs('files', exist_ok=True)
 
 
 def set_run(run, bold=False, italic=False, size=12, color=(0, 0, 0)):
@@ -106,7 +104,7 @@ def add_page_break(doc):
     run.add_break(WD_BREAK.PAGE)
 
 
-def generate_cat_docx(output='files/Calvince_BBM_415_CAT.docx'):
+def generate_cat_docx(output='Calvince_BBM_415_CAT.docx'):
     doc = Document()
 
     # Page margins
@@ -123,7 +121,7 @@ def generate_cat_docx(output='files/Calvince_BBM_415_CAT.docx'):
     set_para_spacing(logo_para, before=12, after=10, spacing=1.0)
     try:
         logo_para.add_run().add_picture(
-            'attached_assets/moi_logo_1773763714167.png', width=Inches(1.4))
+            'assets/moi_uni_logo/moi_logo.png', width=Inches(1.4))
     except Exception:
         pass
 
@@ -567,4 +565,4 @@ def generate_cat_docx(output='files/Calvince_BBM_415_CAT.docx'):
 
 
 if __name__ == '__main__':
-    generate_cat_docx('files/Calvince_BBM_415_CAT.docx')
+    generate_cat_docx('Calvince_BBM_415_CAT.docx')

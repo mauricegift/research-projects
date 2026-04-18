@@ -5,7 +5,6 @@ Moi University - Bachelor of Business Management (Accounting Option)
 Title: THE IMPACT OF TAX POLICIES ON THE PERFORMANCE OF SMALL AND MEDIUM ENTERPRISES
        IN ELDORET CITY, KENYA
 """
-import os
 
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
@@ -23,7 +22,6 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
-os.makedirs('files', exist_ok=True)
 
 PAGE_WIDTH, PAGE_HEIGHT = letter
 MARGIN = inch
@@ -160,7 +158,7 @@ def bar_chart_image(categories, values, title, xlabel, ylabel, color='steelblue'
     return buf
 
 
-def generate_pdf(output_path='files/Calvince_Odhiambo_Research_Project.pdf',
+def generate_pdf(output_path='Calvince_Odhiambo_Research_Project.pdf',
                  _page_data=None, _anchor_reg=None):
 
     def on_page(canvas, doc):
@@ -224,7 +222,7 @@ def generate_pdf(output_path='files/Calvince_Odhiambo_Research_Project.pdf',
 
     # ======================== TITLE PAGE ========================
     story += [SP(12)]
-    logo = Image('attached_assets/moi_logo_1773763714167.png', width=1.2 * inch, height=1.2 * inch)
+    logo = Image('assets/moi_uni_logo/moi_logo.png', width=1.2 * inch, height=1.2 * inch)
     logo.hAlign = 'CENTER'
     story.append(logo)
     story += [SP(6)]
@@ -2184,7 +2182,7 @@ if __name__ == '__main__':
 
     # Pass 3: final PDF with stabilized page numbers
     generate_pdf(
-        output_path='files/Calvince_Odhiambo_Research_Project.pdf',
+        output_path='Calvince_Odhiambo_Research_Project.pdf',
         _page_data=_reg2,
         _anchor_reg=None,
     )

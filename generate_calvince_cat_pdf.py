@@ -16,7 +16,6 @@ from reportlab.lib import colors
 from reportlab.platypus import Image as RLImage
 from reportlab.lib.utils import ImageReader
 import os
-os.makedirs('files', exist_ok=True)
 
 W, H = A4
 FONT       = 'Times-Roman'
@@ -75,7 +74,7 @@ def bullet(bold_label, text):
     return P(f'<b>{bold_label}</b> {text}', 'bullet')
 
 
-def generate_cat_pdf(output='files/Calvince_BBM_415_CAT.pdf'):
+def generate_cat_pdf(output='Calvince_BBM_415_CAT.pdf'):
     doc = SimpleDocTemplate(
         output,
         pagesize=A4,
@@ -89,7 +88,7 @@ def generate_cat_pdf(output='files/Calvince_BBM_415_CAT.pdf'):
 
     # ======================== COVER PAGE ========================
     # Logo
-    logo_path = 'attached_assets/moi_logo_1773763714167.png'
+    logo_path = 'assets/moi_uni_logo/moi_logo.png'
     if os.path.exists(logo_path):
         img = RLImage(logo_path, width=1.4*inch, height=1.4*inch)
         img.hAlign = 'CENTER'
@@ -531,4 +530,4 @@ def generate_cat_pdf(output='files/Calvince_BBM_415_CAT.pdf'):
 
 
 if __name__ == '__main__':
-    generate_cat_pdf('files/Calvince_BBM_415_CAT.pdf')
+    generate_cat_pdf('Calvince_BBM_415_CAT.pdf')

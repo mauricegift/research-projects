@@ -2,7 +2,6 @@
 """
 Generate PDF version of the research project using ReportLab
 """
-import os
 
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
@@ -16,7 +15,6 @@ from reportlab.platypus import (
 from reportlab.platypus.tableofcontents import TableOfContents
 from reportlab.lib import colors
 import copy
-os.makedirs('files', exist_ok=True)
 
 PAGE_WIDTH, PAGE_HEIGHT = letter
 MARGIN = inch
@@ -235,7 +233,7 @@ def make_cf_table():
     return t
 
 def generate_pdf():
-    output_path = 'files/James_Ngovi_Research_Project.pdf'
+    output_path = 'James_Ngovi_Research_Project.pdf'
     
     doc = SimpleDocTemplate(
         output_path,
@@ -264,7 +262,7 @@ def generate_pdf():
     
     # ===================== TITLE PAGE =====================
     story += [SP(4)]
-    logo = Image('attached_assets/moi_logo_1773763714167.png', width=1.0*inch, height=1.0*inch)
+    logo = Image('assets/moi_uni_logo/moi_logo.png', width=1.0*inch, height=1.0*inch)
     logo.hAlign = 'CENTER'
     story.append(logo)
     story += [SP(4)]

@@ -16,7 +16,6 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK
 from docx.enum.table import WD_TABLE_ALIGNMENT
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
-os.makedirs('files', exist_ok=True)
 
 
 def add_centered_image(doc, image_path, width_inches=6.0, caption_text=None):
@@ -343,7 +342,7 @@ def generate():
     p_logo.paragraph_format.space_before = Pt(0)
     p_logo.paragraph_format.space_after = Pt(6)
     try:
-        p_logo.add_run().add_picture('attached_assets/moi_logo_1773763714167.png', width=Inches(1.4))
+        p_logo.add_run().add_picture('assets/moi_uni_logo/moi_logo.png', width=Inches(1.4))
     except Exception:
         pass
 
@@ -1293,16 +1292,16 @@ def generate():
 
     set_section_page_numbering(doc.sections[-1], 'decimal', 1)
     add_centered_page_numbers(doc)
-    doc.save('files/Mourice_BBM_Annex_Project.docx')
+    doc.save('Mourice_BBM_Annex_Project.docx')
     print('DOCX saved: Mourice_BBM_Annex_Project.docx')
 
 
 def convert_to_pdf():
     """Convert DOCX to PDF using LibreOffice headless."""
-    docx = 'files/Mourice_BBM_Annex_Project.docx'
+    docx = 'Mourice_BBM_Annex_Project.docx'
     subprocess.run([
         'libreoffice', '--headless', '--convert-to', 'pdf',
-        '--outdir', 'files', docx
+        '--outdir', '.', docx
     ], check=True, capture_output=True, timeout=120)
     print('PDF saved: Mourice_BBM_Annex_Project.pdf')
 
@@ -1310,7 +1309,7 @@ def convert_to_pdf():
 def verify_pdf():
     """Verify pagination, blank pages, and TOC alignment."""
     import fitz
-    pdf = 'files/Mourice_BBM_Annex_Project.pdf'
+    pdf = 'Mourice_BBM_Annex_Project.pdf'
     doc = fitz.open(pdf)
     print(f'Total PDF pages: {len(doc)}')
 

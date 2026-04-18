@@ -318,7 +318,7 @@ def generate():
     p_logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_logo.paragraph_format.space_after = Pt(6)
     try:
-        p_logo.add_run().add_picture('attached_assets/moi_logo_1773763714167.png', width=Inches(1.4))
+        p_logo.add_run().add_picture('assets/moi_uni_logo/moi_logo.png', width=Inches(1.4))
     except Exception:
         pass
     centred_bold(doc, 'MOI UNIVERSITY', 14, space_after=2)

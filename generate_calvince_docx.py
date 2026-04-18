@@ -13,7 +13,6 @@ Updated version with:
   - Conceptual framework: 4 IVs (Tax Rates, Tax Reforms, Tax Incentives, Tax Compliance) -> DV
   - Chapter 5: 5.2.1 Theoretical Framework through 5.2.6 Overall Model
 """
-import os
 
 from docx import Document
 from docx.shared import Pt, Inches, RGBColor
@@ -26,9 +25,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import io
-os.makedirs('files', exist_ok=True)
 
-LOGO_PATH = 'attached_assets/moi_logo_1773763714167.png'
+LOGO_PATH = 'assets/moi_uni_logo/moi_logo.png'
 
 
 def set_cell_background(cell, fill_color):
@@ -1281,7 +1279,7 @@ def create_docx():
 
     add_page_numbers(doc)
 
-    output_path = 'files/Calvince_Odhiambo_Research_Project.docx'
+    output_path = 'Calvince_Odhiambo_Research_Project.docx'
     doc.save(output_path)
     print(f'DOCX saved: {output_path}')
     return output_path

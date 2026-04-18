@@ -12,7 +12,6 @@ Adapted from source documents with:
   - Descriptive statistics (Likert-scale tables with means and SDs)
   - Moi University formatting identical to Calvince's project
 """
-import os
 
 from docx import Document
 from docx.shared import Pt, Inches, RGBColor
@@ -24,9 +23,8 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
-os.makedirs('files', exist_ok=True)
 
-LOGO_PATH = 'attached_assets/moi_logo_1773763714167.png'
+LOGO_PATH = 'assets/moi_uni_logo/moi_logo.png'
 FONT_NAME = 'Liberation Serif'
 
 
@@ -1090,7 +1088,7 @@ def create_docx():
     body(doc, '4. Effective liquidity risk management affects business returns positively  [5] [4] [3] [2] [1]')
 
     add_page_numbers(doc)
-    fn = 'files/Agnetta_Opisa_Research_Project.docx'
+    fn = 'Agnetta_Opisa_Research_Project.docx'
     doc.save(fn)
     print(f'DOCX saved: {fn}')
     return fn
@@ -1101,7 +1099,7 @@ def convert_to_pdf(docx_path):
     env = os.environ.copy()
     env['HOME'] = '/tmp'
     result = subprocess.run(
-        ['libreoffice', '--headless', '--convert-to', 'pdf', '--outdir', 'files', docx_path],
+        ['libreoffice', '--headless', '--convert-to', 'pdf', '--outdir', '.', docx_path],
         capture_output=True, text=True, env=env, timeout=120
     )
     if result.returncode != 0:

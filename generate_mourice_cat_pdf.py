@@ -14,7 +14,6 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
 from reportlab.lib import colors
 from reportlab.platypus import Image as RLImage
 import os
-os.makedirs('files', exist_ok=True)
 
 FONT      = 'Times-Roman'
 FONT_BOLD = 'Times-Bold'
@@ -56,14 +55,14 @@ def bullet(label, text):
     return P(f'<b>{label}</b>{text}', 'bullet')
 
 
-def generate(output='files/Mourice_BBM_453_CAT.pdf'):
+def generate(output='Mourice_BBM_453_CAT.pdf'):
     doc = SimpleDocTemplate(output, pagesize=A4,
                             leftMargin=1.25*inch, rightMargin=inch,
                             topMargin=inch,       bottomMargin=inch)
     story = []
 
     # ─── COVER PAGE ───────────────────────────────────────────────
-    logo = 'attached_assets/moi_logo_1773763714167.png'
+    logo = 'assets/moi_uni_logo/moi_logo.png'
     if os.path.exists(logo):
         img = RLImage(logo, width=1.4*inch, height=1.4*inch)
         img.hAlign = 'CENTER'
@@ -539,4 +538,4 @@ def generate(output='files/Mourice_BBM_453_CAT.pdf'):
 
 
 if __name__ == '__main__':
-    generate('files/Mourice_BBM_453_CAT.pdf')
+    generate('Mourice_BBM_453_CAT.pdf')

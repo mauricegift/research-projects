@@ -12,7 +12,6 @@ from reportlab.platypus import (SimpleDocTemplate, Paragraph, Spacer, PageBreak,
 from reportlab.platypus.flowables import HRFlowable
 from reportlab.lib.colors import black, white, HexColor
 import os
-os.makedirs('files', exist_ok=True)
 
 PW, PH = letter
 LM, RM, TM, BM = 1.25*inch, 1.0*inch, 1.0*inch, 1.0*inch
@@ -156,7 +155,7 @@ def generate_pdf():
 
     # ===================== COVER PAGE =====================
     story.append(SP(20))
-    logo_path = 'attached_assets/moi_logo_1773763714167.png'
+    logo_path = 'assets/moi_uni_logo/moi_logo.png'
     if os.path.exists(logo_path):
         logo = Image(logo_path, width=1.0*inch, height=1.0*inch)
         logo.hAlign = 'CENTER'
@@ -930,7 +929,7 @@ def generate_pdf():
 
     # ===================== BUILD PDF =====================
     doc = SimpleDocTemplate(
-        'files/Sophie_Research_Project.pdf',
+        'Sophie_Research_Project.pdf',
         pagesize=letter,
         leftMargin=LM, rightMargin=RM,
         topMargin=TM, bottomMargin=BM,
