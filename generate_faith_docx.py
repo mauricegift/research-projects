@@ -234,18 +234,34 @@ def _add_page_field_to_footer(section, instr):
     fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
     fp.clear()
     run = fp.add_run()
+    run.font.name = 'Times New Roman'; run.font.size = Pt(11)
     a = OxmlElement('w:fldChar'); a.set(qn('w:fldCharType'), 'begin')
     b = OxmlElement('w:instrText'); b.text = instr
     c = OxmlElement('w:fldChar'); c.set(qn('w:fldCharType'), 'end')
     run._r.append(a); run._r.append(b); run._r.append(c)
 
 
+def _set_section_pg_num(section, fmt, start):
+    sectPr = section._sectPr
+    for old in sectPr.findall(qn('w:pgNumType')):
+        sectPr.remove(old)
+    pgNumType = OxmlElement('w:pgNumType')
+    pgNumType.set(qn('w:fmt'), fmt)
+    pgNumType.set(qn('w:start'), str(start))
+    sectPr.append(pgNumType)
+
+
 def add_centered_page_numbers(doc):
     sections = list(doc.sections)
+    # section[0] = cover (titlePg masks number)
+    # section[1] = front matter (lowerRoman starting ii)
+    # section[-1] = body (decimal starting 1)
     if sections:
         sections[0].different_first_page_header_footer = True
     if len(sections) > 1:
-        _add_page_field_to_footer(sections[1], 'PAGE \\* LOWERROMAN')
+        _add_page_field_to_footer(sections[1], 'PAGE')
+    # ensure final body section is decimal starting at 1
+    _set_section_pg_num(sections[-1], 'decimal', 1)
     for s in sections[2:]:
         _add_page_field_to_footer(s, 'PAGE')
 
@@ -328,6 +344,7 @@ def generate():
     centred_bold(doc, 'APRIL 2026', 12)
 
     # ═══ FRONT MATTER ═══
+    # Cover section ends here; cover gets titlePg so its page number is hidden.
     insert_section_break(doc, fmt='lowerRoman', start=1, title_page=True)
 
     # DECLARATION
@@ -419,74 +436,74 @@ def generate():
     toc_row(doc, 'DEDICATION', 'iii', bold=True)
     toc_row(doc, 'ACKNOWLEDGEMENT', 'iv', bold=True)
     toc_row(doc, 'ABSTRACT', 'v', bold=True)
-    toc_row(doc, 'TABLE OF CONTENTS', 'vi', bold=True)
+    toc_row(doc, 'TABLE OF CONTENTS', 'vii', bold=True)
     toc_row(doc, 'LIST OF TABLES', 'ix', bold=True)
     toc_row(doc, 'LIST OF FIGURES', 'x', bold=True)
     toc_row(doc, 'LIST OF ABBREVIATIONS AND ACRONYMS', 'xi', bold=True)
     toc_row(doc, 'CHAPTER ONE: INTRODUCTION', '1', bold=True)
     toc_row(doc, '1.1 Background of the Study', '1', indent=1)
     toc_row(doc, '1.2 Statement of the Problem', '3', indent=1)
-    toc_row(doc, '1.3 Purpose of the Study', '5', indent=1)
-    toc_row(doc, '1.4 Research Objectives', '5', indent=1)
-    toc_row(doc, '1.5 Research Hypotheses', '6', indent=1)
-    toc_row(doc, '1.6 Justification of the Study', '6', indent=1)
-    toc_row(doc, '1.7 Significance of the Study', '7', indent=1)
-    toc_row(doc, '1.8 Scope of the Study', '8', indent=1)
-    toc_row(doc, '1.9 Limitations of the Study', '8', indent=1)
-    toc_row(doc, 'CHAPTER TWO: LITERATURE REVIEW', '10', bold=True)
-    toc_row(doc, '2.1 Introduction', '10', indent=1)
-    toc_row(doc, '2.2 Theoretical Literature', '10', indent=1)
-    toc_row(doc, '2.3 Empirical Review', '13', indent=1)
-    toc_row(doc, '2.4 Conceptual Framework', '17', indent=1)
-    toc_row(doc, '2.5 Research Gaps', '20', indent=1)
-    toc_row(doc, 'CHAPTER THREE: RESEARCH METHODOLOGY', '22', bold=True)
-    toc_row(doc, '3.1 Introduction', '22', indent=1)
-    toc_row(doc, '3.2 Research Design', '22', indent=1)
-    toc_row(doc, '3.3 Target Population', '22', indent=1)
-    toc_row(doc, '3.4 Sampling Techniques and Sample Size', '23', indent=1)
-    toc_row(doc, '3.5 Data Collection Methods and Instruments', '23', indent=1)
-    toc_row(doc, '3.6 Validity and Reliability of Instruments', '24', indent=1)
-    toc_row(doc, '3.7 Data Analysis Techniques', '25', indent=1)
-    toc_row(doc, '3.8 Diagnostic Tests', '26', indent=1)
-    toc_row(doc, '3.9 Ethical Considerations', '27', indent=1)
-    toc_row(doc, 'CHAPTER FOUR: DATA ANALYSIS, FINDINGS AND DISCUSSIONS', '28', bold=True)
-    toc_row(doc, '4.1 Introduction', '28', indent=1)
-    toc_row(doc, '4.2 Descriptive Statistics', '28', indent=1)
-    toc_row(doc, '4.3 Diagnostic Tests Results', '30', indent=1)
-    toc_row(doc, '4.4 Correlation Analysis', '32', indent=1)
-    toc_row(doc, '4.5 Regression Analysis', '33', indent=1)
-    toc_row(doc, 'CHAPTER FIVE: SUMMARY, CONCLUSIONS AND RECOMMENDATIONS', '40', bold=True)
-    toc_row(doc, '5.1 Introduction', '40', indent=1)
-    toc_row(doc, '5.2 Summary of Findings', '40', indent=1)
-    toc_row(doc, '5.3 Conclusions', '43', indent=1)
-    toc_row(doc, '5.4 Recommendations', '44', indent=1)
-    toc_row(doc, '5.5 Suggestions for Further Studies', '45', indent=1)
-    toc_row(doc, 'REFERENCES', '46', bold=True)
-    toc_row(doc, 'APPENDICES', '49', bold=True)
-    toc_row(doc, 'Appendix I: Timeframe of the Study', '49', indent=1)
-    toc_row(doc, 'Appendix II: Budget of the Study', '50', indent=1)
+    toc_row(doc, '1.3 Purpose of the Study', '4', indent=1)
+    toc_row(doc, '1.4 Research Objectives', '4', indent=1)
+    toc_row(doc, '1.5 Research Hypotheses', '5', indent=1)
+    toc_row(doc, '1.6 Justification of the Study', '5', indent=1)
+    toc_row(doc, '1.7 Significance of the Study', '6', indent=1)
+    toc_row(doc, '1.8 Scope of the Study', '7', indent=1)
+    toc_row(doc, '1.9 Limitations of the Study', '7', indent=1)
+    toc_row(doc, 'CHAPTER TWO: LITERATURE REVIEW', '8', bold=True)
+    toc_row(doc, '2.1 Introduction', '8', indent=1)
+    toc_row(doc, '2.2 Theoretical Literature', '8', indent=1)
+    toc_row(doc, '2.3 Empirical Review', '9', indent=1)
+    toc_row(doc, '2.4 Conceptual Framework', '12', indent=1)
+    toc_row(doc, '2.5 Research Gaps', '14', indent=1)
+    toc_row(doc, 'CHAPTER THREE: RESEARCH METHODOLOGY', '15', bold=True)
+    toc_row(doc, '3.1 Introduction', '15', indent=1)
+    toc_row(doc, '3.2 Research Design', '16', indent=1)
+    toc_row(doc, '3.3 Target Population', '16', indent=1)
+    toc_row(doc, '3.4 Sampling Techniques and Sample Size', '16', indent=1)
+    toc_row(doc, '3.5 Data Collection Methods and Instruments', '17', indent=1)
+    toc_row(doc, '3.6 Validity and Reliability of Instruments', '17', indent=1)
+    toc_row(doc, '3.7 Data Analysis Techniques', '18', indent=1)
+    toc_row(doc, '3.8 Diagnostic Tests', '18', indent=1)
+    toc_row(doc, '3.9 Ethical Considerations', '19', indent=1)
+    toc_row(doc, 'CHAPTER FOUR: DATA ANALYSIS, FINDINGS AND DISCUSSIONS', '20', bold=True)
+    toc_row(doc, '4.1 Introduction', '20', indent=1)
+    toc_row(doc, '4.2 Descriptive Statistics', '20', indent=1)
+    toc_row(doc, '4.3 Diagnostic Tests Results', '21', indent=1)
+    toc_row(doc, '4.4 Correlation Analysis', '23', indent=1)
+    toc_row(doc, '4.5 Regression Analysis', '24', indent=1)
+    toc_row(doc, 'CHAPTER FIVE: SUMMARY, CONCLUSIONS AND RECOMMENDATIONS', '31', bold=True)
+    toc_row(doc, '5.1 Introduction', '31', indent=1)
+    toc_row(doc, '5.2 Summary of Findings', '31', indent=1)
+    toc_row(doc, '5.3 Conclusions', '32', indent=1)
+    toc_row(doc, '5.4 Recommendations', '33', indent=1)
+    toc_row(doc, '5.5 Suggestions for Further Studies', '34', indent=1)
+    toc_row(doc, 'REFERENCES', '35', bold=True)
+    toc_row(doc, 'APPENDICES', '37', bold=True)
+    toc_row(doc, 'Appendix I: Timeframe of the Study', '37', indent=1)
+    toc_row(doc, 'Appendix II: Budget of the Study', '37', indent=1)
     page_break(doc)
 
     # LIST OF TABLES
     centred_bold(doc, 'LIST OF TABLES', space_after=14)
     tables_toc = [
-        ('Table 2.1: Summary of Research Gaps', '20'),
-        ('Table 3.1: Listed Banks on the Nairobi Securities Exchange', '23'),
-        ('Table 3.2: Summary of Diagnostic Tests', '27'),
-        ('Table 4.1: Summary of Descriptive Statistics', '28'),
-        ('Table 4.2: Results for Jarque-Bera Test for Normality', '30'),
-        ('Table 4.3: Multicollinearity Test Results', '31'),
-        ('Table 4.4: Results of Heteroscedasticity Test', '31'),
-        ('Table 4.5: Results for Autocorrelation Test', '32'),
-        ('Table 4.6: Correlational Matrix', '32'),
-        ('Table 4.7: Audit Committee Independence and Financial Performance', '33'),
-        ('Table 4.8: Accounting Expertise and Financial Performance', '34'),
-        ('Table 4.9: Audit Committee Gender Diversity and Firm Value', '35'),
-        ('Table 4.10: Audit Committee Meetings and Firm Value', '36'),
-        ('Table 4.11: Audit Committee Size and Firm Value', '37'),
-        ('Table 4.12: Audit Committee Characteristics and Firm Value (Joint)', '38'),
-        ('Appendix I: Timeframe of the Study', '49'),
-        ('Appendix II: Budget of the Study', '50'),
+        ('Table 2.1: Summary of Research Gaps', '14'),
+        ('Table 3.1: Listed Banks on the Nairobi Securities Exchange', '17'),
+        ('Table 3.2: Summary of Diagnostic Tests', '18'),
+        ('Table 4.1: Summary of Descriptive Statistics', '20'),
+        ('Table 4.2: Results for Jarque-Bera Test for Normality', '22'),
+        ('Table 4.3: Multicollinearity Test Results', '22'),
+        ('Table 4.4: Results of Heteroscedasticity Test', '23'),
+        ('Table 4.5: Results for Autocorrelation Test', '23'),
+        ('Table 4.6: Correlational Matrix', '24'),
+        ('Table 4.7: Audit Committee Independence and Financial Performance', '25'),
+        ('Table 4.8: Accounting Expertise and Financial Performance', '26'),
+        ('Table 4.9: Audit Committee Gender Diversity and Firm Value', '26'),
+        ('Table 4.10: Audit Committee Meetings and Firm Value', '27'),
+        ('Table 4.11: Audit Committee Size and Firm Value', '28'),
+        ('Table 4.12: Audit Committee Characteristics and Firm Value (Joint)', '29'),
+        ('Appendix I: Timeframe of the Study', '37'),
+        ('Appendix II: Budget of the Study', '37'),
     ]
     for t, p in tables_toc:
         toc_row(doc, t, p)
@@ -494,7 +511,7 @@ def generate():
 
     # LIST OF FIGURES
     centred_bold(doc, 'LIST OF FIGURES', space_after=14)
-    toc_row(doc, 'Figure 2.1: Conceptual Framework', '17')
+    toc_row(doc, 'Figure 1.1: Conceptual Framework', '12')
     page_break(doc)
 
     # LIST OF ABBREVIATIONS
@@ -532,7 +549,8 @@ def generate():
         tabs.append(tab); pPr.append(tabs)
 
     # ═══ CHAPTER ONE ═══
-    insert_section_break(doc, fmt='decimal', start=1)
+    # Front matter section ends here; renders as ii, iii, iv, ...
+    insert_section_break(doc, fmt='lowerRoman', start=2)
     chapter_title(doc, 'CHAPTER ONE', 'INTRODUCTION')
 
     h2(doc, '1.1 Background of the Study')
@@ -1412,53 +1430,16 @@ def generate():
     page_break(doc)
     centred_bold(doc, 'REFERENCES', size=14, space_after=14)
     refs = [
-        'Akpey, I., & Azembila, A. B. (2016). The effect of audit committees on the performance of firms listed on the Ghana Stock Exchange. Journal of Business and Management, 18(11), 55\u201362.',
         'Al-Jalahma, A. (2022). Impact of audit committee characteristics on firm performance: Evidence from Bahrain. Problems and Perspectives in Management, 20(1), 247\u2013261.',
-        'Al-Jaifi, H. A. (2020). Board gender diversity and environmental, social and corporate governance performance: Evidence from ASEAN banks. Asia-Pacific Journal of Business Administration, 12(3), 269\u2013281.',
-        'Al-Okaily, J., & Naueihed, S. (2020). Audit committee effectiveness and family firms: Impact on performance. Management Decision, 58(6), 1021\u20131034.',
-        'Al Farooque, O., Buachoom, W., & Hoang, N. (2020). Interactive effects of executive compensation, firm performance and corporate governance: Evidence from an Asian market. Asia Pacific Journal of Management, 36(4), 1111\u20131164.',
-        'Ashari, S., & Krismiaji, K. (2020). Audit committee characteristics and financial performance: Indonesian evidence. Equity, 22(2), 139\u2013152.',
-        'Baiden, F. (2022). Audit committee characteristics and the financial performance of banks in Ghana. African Journal of Accounting, Auditing and Finance, 8(1), 65\u201385.',
-        'Balagobei, S., & Velnampy, T. (2018). Impact of audit committee on organizational performance of listed hotels and travels in Sri Lanka. International Journal of Accounting and Financial Reporting, 8(4), 351\u2013368.',
-        'Basel Committee on Banking Supervision. (2021). Principles for the sound management of operational risk and the role of supervision. Bank for International Settlements.',
-        'Bouaine, W., & Hrichi, Y. (2019). Impact of audit committee adoption and its characteristics on financial performance: Evidence from 100 French companies. Accounting and Finance Research, 8(1), 92\u2013102.',
         'Capital Markets Authority. (2021). The code of corporate governance practices for issuers of securities to the public. Nairobi: CMA.',
-        'Capital Markets Authority Uganda. (2022). Corporate governance guidelines for capital market issuers. Kampala: CMA Uganda.',
-        'Center for Audit Quality. (2024). Audit committee transparency barometer. Washington, DC: CAQ.',
         'Central Bank of Kenya. (2024). Bank supervision annual report. Nairobi: Central Bank of Kenya.',
-        'Chaudhry, N. I., Roomi, M. A., & Aftab, I. (2020). Impact of expertise of audit committee chair and nomination committee chair on financial performance of firms. Corporate Governance, 20(4), 621\u2013638.',
-        'Deloitte. (2023). Audit committee resource guide. London: Deloitte.',
-        'Deloitte. (2025). 2025 audit committee briefing: Emerging risks and oversight priorities. London: Deloitte.',
         'Donaldson, L., & Davis, J. H. (1991). Stewardship theory or agency theory: CEO governance and shareholder returns. Australian Journal of Management, 16(1), 49\u201364.',
-        'Elahi, M. (2025). Audit committee independence and bank systemic risk: Cross-country evidence. Journal of Banking Regulation, 26(2), 145\u2013167.',
-        'Freeman, R. E. (1984). Strategic management: A stakeholder approach. Boston: Pitman.',
-        'Gordini, N., & Rancati, E. (2017). Gender diversity in the Italian boardroom and firm financial performance. Management Research Review, 40(1), 75\u201394.',
-        'Gupta, S. K., Sharma, A., & Singh, K. (2022). Audit committee composition and the performance of Indian commercial banks. Indian Journal of Finance and Banking, 12(3), 45\u201367.',
-        'Ibrahim, A., Habbash, M., & Hussainey, K. (2019). Audit committee effectiveness and corporate disclosure: Evidence from Kenyan insurance companies. International Journal of Accounting, Auditing and Performance Evaluation, 15(2), 137\u2013158.',
-        'Institute of Directors in South Africa. (2021). King IV report on corporate governance for South Africa. Johannesburg: IoDSA.',
         'Jensen, M. C., & Meckling, W. H. (1976). Theory of the firm: Managerial behaviour, agency costs and ownership structure. Journal of Financial Economics, 3(4), 305\u2013360.',
-        'Jonathan, M., & Magoma, P. (2025). Audit committee leadership and ROA in Kenyan listed financial firms. African Journal of Finance and Management, 11(1), 22\u201341.',
         'Kallamu, B. S., & Saat, N. A. M. (2015). Audit committee attributes and firm performance: Evidence from Malaysian finance companies. Asian Review of Accounting, 23(3), 206\u2013231.',
-        'Kapkiyai, C. C., Bonuke, R., & Tarus, D. (2020). Audit committee characteristics and earnings management: A study of listed firms in Kenya. African Journal of Business Management, 14(5), 130\u2013140.',
-        'Karim, M. (2024). Audit committee characteristics and the firm performance of commercial banks in Bangladesh. Asian Journal of Accounting and Governance, 21(1), 1\u201318.',
-        'Kenya Bankers Association. (2023). Annual industry performance report. Nairobi: Kenya Bankers Association.',
-        'K\u0131l\u0131\u00e7, M., & Kuzey, C. (2016). The effect of board gender diversity on firm performance: Evidence from Turkey. Gender in Management, 31(7), 434\u2013455.',
         'Kipkoech, S. K., & Rono, L. (2016). Audit committee size, experience and firm financial performance: Evidence from Nairobi Securities Exchange. Research Journal of Finance and Accounting, 7(15), 87\u201395.',
-        'KPMG. (2021). Audit committee handbook. Amstelveen: KPMG International.',
-        'KPMG. (2023). Effective audit committees: Insights from the boardroom. Amstelveen: KPMG International.',
         'Mohamed, A. M., & Mwengei, K. B. O. (2019). Influence of audit committee independence on firm value of listed firms in Kenya. International Journal of Economics, Commerce and Management, 7(4), 462\u2013478.',
-        'Musallam, S. R. M. (2020). Effects of board characteristics, audit committee and risk management on firm performance: Evidence from listed firms in Palestine. Journal of Financial Reporting and Accounting, 18(4), 681\u2013695.',
         'OECD. (2020). OECD principles of corporate governance. Paris: Organisation for Economic Co-operation and Development.',
-        'Ofoeda, I. (2017). Corporate governance and non-bank financial institutions profitability. International Journal of Law and Management, 59(6), 854\u2013875.',
-        'Orjinta, H. I., & Nkem, O. E. (2018). Audit committee characteristics and performance of non-financial firms: Evidence from emerging economy. International Journal of Innovative Research and Advanced Studies, 5(4), 39\u201346.',
         'Oroud, Y. (2019). The effect of audit committee characteristics on the profitability: Panel data evidence. International Journal of Economics and Finance, 11(4), 104\u2013112.',
-        'Oussii, A. A., & Taktak, N. B. (2018). Audit committee effectiveness and financial reporting timeliness: The case of Tunisian listed companies. African Journal of Economic and Management Studies, 9(1), 34\u201355.',
-        'Pfeffer, J., & Salancik, G. R. (1978). The external control of organisations: A resource dependence perspective. New York: Harper & Row.',
-        'Reuters. (2024). China tightens audit oversight after major financial scandals. Reuters Newswire, March 2024.',
-        'Salehi, M., Tahervafaei, M., & Tarighi, H. (2018). The effect of characteristics of audit committee and board on corporate profitability in Iran. Journal of Economic and Administrative Sciences, 34(1), 71\u201388.',
-        'Singhania, M. (2025). Audit committee composition and firm performance in listed firms. Corporate Governance Review, 19(2), 88\u2013106.',
-        'World Bank. (2022). Global financial development report: Banks and capital markets in emerging economies. Washington, DC: World Bank.',
-        'Yip, A. (2023). Audit committee effectiveness and reporting quality of Chinese listed firms. China Accounting and Finance Review, 25(3), 410\u2013432.',
     ]
     for r in refs:
         p = doc.add_paragraph()
@@ -1511,9 +1492,12 @@ def generate():
 
 
 def convert_to_pdf():
+    import shutil
+    soffice = (shutil.which('libreoffice') or shutil.which('soffice')
+               or '/nix/store/0pa3zy5lid4paiw9miafpvjkjvlmxfgz-libreoffice-25.2.3.2-wrapped/bin/libreoffice')
     try:
         subprocess.run(
-            ['libreoffice', '--headless', '--convert-to', 'pdf',
+            [soffice, '--headless', '--convert-to', 'pdf',
              '--outdir', 'files', OUTPUT_DOCX],
             check=True, capture_output=True, timeout=180)
         print(f'[OK] Wrote {OUTPUT_PDF}')
