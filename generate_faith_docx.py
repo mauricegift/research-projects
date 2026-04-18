@@ -432,14 +432,14 @@ def generate():
 
     # TABLE OF CONTENTS
     centred_bold(doc, 'TABLE OF CONTENTS', space_after=14)
-    toc_row(doc, 'DECLARATION', 'ii', bold=True)
-    toc_row(doc, 'DEDICATION', 'iii', bold=True)
-    toc_row(doc, 'ACKNOWLEDGEMENT', 'iv', bold=True)
-    toc_row(doc, 'ABSTRACT', 'v', bold=True)
-    toc_row(doc, 'TABLE OF CONTENTS', 'vii', bold=True)
-    toc_row(doc, 'LIST OF TABLES', 'ix', bold=True)
-    toc_row(doc, 'LIST OF FIGURES', 'x', bold=True)
-    toc_row(doc, 'LIST OF ABBREVIATIONS AND ACRONYMS', 'xi', bold=True)
+    toc_row(doc, 'DECLARATION', 'i', bold=True)
+    toc_row(doc, 'DEDICATION', 'ii', bold=True)
+    toc_row(doc, 'ACKNOWLEDGEMENT', 'iii', bold=True)
+    toc_row(doc, 'ABSTRACT', 'iv', bold=True)
+    toc_row(doc, 'TABLE OF CONTENTS', 'vi', bold=True)
+    toc_row(doc, 'LIST OF TABLES', 'viii', bold=True)
+    toc_row(doc, 'LIST OF FIGURES', 'ix', bold=True)
+    toc_row(doc, 'LIST OF ABBREVIATIONS AND ACRONYMS', 'x', bold=True)
     toc_row(doc, 'CHAPTER ONE: INTRODUCTION', '1', bold=True)
     toc_row(doc, '1.1 Background of the Study', '1', indent=1)
     toc_row(doc, '1.2 Statement of the Problem', '3', indent=1)
@@ -549,8 +549,8 @@ def generate():
         tabs.append(tab); pPr.append(tabs)
 
     # ═══ CHAPTER ONE ═══
-    # Front matter section ends here; renders as ii, iii, iv, ...
-    insert_section_break(doc, fmt='lowerRoman', start=2)
+    # Front matter section ends here; renders as i, ii, iii, ... starting at DECLARATION.
+    insert_section_break(doc, fmt='lowerRoman', start=1)
     chapter_title(doc, 'CHAPTER ONE', 'INTRODUCTION')
 
     h2(doc, '1.1 Background of the Study')
