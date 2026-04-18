@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 """Generate PDF research project for Sophie Wanyonyi — Moi University"""
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.lib import colors
@@ -155,7 +159,7 @@ def generate_pdf():
 
     # ===================== COVER PAGE =====================
     story.append(SP(20))
-    logo_path = 'assets/moi_uni_logo/moi_logo.png'
+    logo_path = 'assets/moi_uni_logo.png'
     if os.path.exists(logo_path):
         logo = Image(logo_path, width=1.0*inch, height=1.0*inch)
         logo.hAlign = 'CENTER'
@@ -929,7 +933,7 @@ def generate_pdf():
 
     # ===================== BUILD PDF =====================
     doc = SimpleDocTemplate(
-        'Sophie_Research_Project.pdf',
+        'files/Sophie_Research_Project.pdf',
         pagesize=letter,
         leftMargin=LM, rightMargin=RM,
         topMargin=TM, bottomMargin=BM,

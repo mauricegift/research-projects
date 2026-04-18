@@ -3,6 +3,10 @@
 Generate research project DOCX for Wanyonyi Nafula Sophie
 Moi University - BBM (Finance and Banking Option)
 """
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 from docx import Document
 from docx.shared import Pt, Inches, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK
@@ -229,7 +233,7 @@ def generate_docx():
     logo_para.paragraph_format.space_before = Pt(10)
     logo_para.paragraph_format.space_after = Pt(6)
     logo_para.paragraph_format.line_spacing_rule = WD_LINE_SPACING.SINGLE
-    logo_para.add_run().add_picture('assets/moi_uni_logo/moi_logo.png', width=Inches(1.3))
+    logo_para.add_run().add_picture('assets/moi_uni_logo.png', width=Inches(1.3))
 
     tp(doc, 'THE EFFECT OF FINANCIAL CAPABILITIES ON RISK-TAKING', size=13, bold=True, space_before=2, space_after=2)
     tp(doc, 'AMONG UNIVERSITY STUDENTS', size=13, bold=True, space_before=2, space_after=12)
@@ -1120,7 +1124,7 @@ def generate_docx():
     p_end.paragraph_format.space_before = Pt(16)
 
     add_page_num_footer(doc)
-    doc.save('Sophie_Research_Project.docx')
+    doc.save('files/Sophie_Research_Project.docx')
     print('Successfully created: Sophie_Research_Project.docx')
 
 generate_docx()

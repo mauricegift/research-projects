@@ -42,27 +42,11 @@ format:
 .
 ├── README.md
 ├── .gitignore
+├── requirements.txt                # Python dependencies
+├── app.py                          # master runner — runs every generator
 │
-├── generate_mourice_docx.py        # main project — DOCX
-├── generate_mourice_pdf.py         # main project — PDF
-├── generate_mourice_cat_docx.py    # CAT — DOCX
-├── generate_mourice_cat_pdf.py     # CAT — PDF
-├── generate_mourice_diagrams.py    # builds the system diagrams used in Mourice's project
-│
-├── generate_sophie_research.py     # Sophie — DOCX
-├── generate_sophie_pdf.py          # Sophie — PDF
-│
-├── generate_calvince_docx.py       # Calvince research project — DOCX
-├── generate_calvince_pdf.py        # Calvince research project — PDF
-├── generate_calvince_cat_docx.py   # Calvince CAT — DOCX
-├── generate_calvince_cat_pdf.py    # Calvince CAT — PDF
-│
-├── generate_agnetta_docx.py        # Agnetta research project
-├── generate_research.py            # James Ngovi research project
-├── generate_pdf.py                 # generic DOCX → PDF helper
-│
-├── generate_faith_docx.py          # Faith Okumu research project — DOCX
-├── generate_faith_pdf.py           # Faith Okumu research project — PDF
+├── assets/
+│   └── moi_uni_logo.png            # Moi University crest used on every cover page
 │
 ├── mourice_figures/                # PNG diagrams (architecture, ER, use case, deployment, sequence)
 │   ├── fig_6_1_architecture.png
@@ -71,31 +55,41 @@ format:
 │   ├── fig_6_4_deployment.png
 │   └── fig_6_5_sequence.png
 │
+├── generators/                     # All document-generator scripts
+│   ├── generate_mourice_diagrams.py    # builds the system diagrams used in Mourice's project
+│   ├── generate_mourice_docx.py        # Mourice main project — DOCX
+│   ├── generate_mourice_pdf.py         # Mourice main project — PDF
+│   ├── generate_mourice_cat_docx.py    # Mourice CAT — DOCX
+│   ├── generate_mourice_cat_pdf.py     # Mourice CAT — PDF
+│   ├── generate_sophie_research.py     # Sophie — DOCX
+│   ├── generate_sophie_pdf.py          # Sophie — PDF
+│   ├── generate_calvince_docx.py       # Calvince research project — DOCX
+│   ├── generate_calvince_pdf.py        # Calvince research project — PDF
+│   ├── generate_calvince_cat_docx.py   # Calvince CAT — DOCX
+│   ├── generate_calvince_cat_pdf.py    # Calvince CAT — PDF
+│   ├── generate_agnetta_docx.py        # Agnetta research project (DOCX + PDF)
+│   ├── generate_james_ngovi_docx.py    # James Ngovi research project — DOCX
+│   ├── generate_james_ngovi_pdf.py     # James Ngovi research project — PDF
+│   ├── generate_faith_docx.py          # Faith Okumu research project — DOCX
+│   └── generate_faith_pdf.py           # Faith Okumu research project — PDF
+│
 └── files/                          # All generated documents land here
-    ├── Mourice_BBM_Annex_Project.docx
-    ├── Mourice_BBM_Annex_Project.pdf
-    ├── Mourice_BBM_453_CAT.docx
-    ├── Mourice_BBM_453_CAT.pdf
-    ├── Sophie_Research_Project.docx
-    ├── Sophie_Research_Project.pdf
-    ├── Calvince_Odhiambo_Research_Project.docx
-    ├── Calvince_Odhiambo_Research_Project.pdf
-    ├── Calvince_BBM_415_CAT.docx
-    ├── Calvince_BBM_415_CAT.pdf
-    ├── Agnetta_Opisa_Research_Project.docx
-    ├── Agnetta_Opisa_Research_Project.pdf
-    ├── James_Ngovi_Research_Project.docx
-    ├── James_Ngovi_Research_Project.pdf
-    ├── Faith_Okumu_Research_Project.docx
-    └── Faith_Okumu_Research_Project.pdf
+    ├── Mourice_BBM_Annex_Project.docx / .pdf
+    ├── Mourice_BBM_453_CAT.docx / .pdf
+    ├── Sophie_Research_Project.docx / .pdf
+    ├── Calvince_Odhiambo_Research_Project.docx / .pdf
+    ├── Calvince_BBM_415_CAT.docx / .pdf
+    ├── Agnetta_Opisa_Research_Project.docx / .pdf
+    ├── James_Ngovi_Research_Project.docx / .pdf
+    └── Faith_Okumu_Research_Project.docx / .pdf
 ```
 
 ## Prerequisites
 
 - **Python 3.10+**
-- Python packages:
+- Python packages — install with:
   ```bash
-  pip install python-docx reportlab PyMuPDF Pillow
+  pip install -r requirements.txt
   ```
 - **LibreOffice** — used by some generators to convert the produced
   `.docx` into a polished `.pdf` (`soffice --headless --convert-to pdf`).
@@ -106,44 +100,46 @@ format:
 
 ## Usage
 
-Run any generator from the repository root. Every script writes its
-output into the `files/` folder (created automatically if missing):
+### Run everything at once
+
+From the repository root, regenerate every DOCX and PDF in `files/`:
 
 ```bash
-# Mourice — full research project (DOCX + PDF)
-python3 generate_mourice_docx.py
-python3 generate_mourice_pdf.py
+python3 app.py
+```
 
-# Sophie
-python3 generate_sophie_research.py
-python3 generate_sophie_pdf.py
+Run only specific generators by passing one or more name fragments
+(matched against the script filenames in `generators/`):
 
-# Calvince
-python3 generate_calvince_docx.py
-python3 generate_calvince_pdf.py
+```bash
+python3 app.py faith               # Faith only
+python3 app.py mourice cat         # any script with 'mourice' or 'cat'
+python3 app.py sophie calvince     # both Sophie and Calvince scripts
+```
 
-# Calvince — BBM 415 CAT
-python3 generate_calvince_cat_docx.py
-python3 generate_calvince_cat_pdf.py
+### Run a single generator directly
 
-# Agnetta
-python3 generate_agnetta_docx.py
+Each script can also be invoked on its own — paths are resolved relative
+to the project root automatically:
 
-# James Ngovi
-python3 generate_research.py
+```bash
+python3 generators/generate_faith_docx.py
+python3 generators/generate_faith_pdf.py
+```
 
-# Faith Okumu — full research project (DOCX + PDF)
-python3 generate_faith_docx.py
-python3 generate_faith_pdf.py
+### (Re)build Mourice's system diagrams
 
-# (Re)build the system diagrams that appear in Mourice's Chapter Six
-python3 generate_mourice_diagrams.py
+```bash
+python3 generators/generate_mourice_diagrams.py
 ```
 
 ## Notes
 
 - The TOC, list of tables, and list of figures in every generated document
   are kept in sync with the actual page numbers in the produced PDFs.
+- Front-matter pages are numbered with lower-case roman numerals
+  (i, ii, iii…) starting from the page after the cover; chapters restart
+  at Arabic 1.
 
 ## Author
 

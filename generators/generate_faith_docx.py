@@ -10,6 +10,10 @@ Degree: Bachelor of Business Management (Accounting Option)
 April 2026
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 import os
 import subprocess
 from docx import Document
@@ -318,7 +322,7 @@ def generate():
     p_logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_logo.paragraph_format.space_after = Pt(6)
     try:
-        p_logo.add_run().add_picture('assets/moi_uni_logo/moi_logo.png', width=Inches(1.4))
+        p_logo.add_run().add_picture('assets/moi_uni_logo.png', width=Inches(1.4))
     except Exception:
         pass
     centred_bold(doc, 'MOI UNIVERSITY', 14, space_after=2)

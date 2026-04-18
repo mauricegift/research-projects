@@ -5,6 +5,10 @@ These diagrams are intentionally distinct from any used by James Ngovi
 own visual identity (system architecture, ER, use case, deployment,
 sequence — none of which appear in James's research).
 """
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt

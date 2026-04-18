@@ -4,6 +4,10 @@ Generate formatted PDF for Mourice Onyango BBM 453 CAT
 Distributed Systems - Critical Analysis
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, PageBreak, HRFlowable
 )
@@ -55,14 +59,14 @@ def bullet(label, text):
     return P(f'<b>{label}</b>{text}', 'bullet')
 
 
-def generate(output='Mourice_BBM_453_CAT.pdf'):
+def generate(output='files/Mourice_BBM_453_CAT.pdf'):
     doc = SimpleDocTemplate(output, pagesize=A4,
                             leftMargin=1.25*inch, rightMargin=inch,
                             topMargin=inch,       bottomMargin=inch)
     story = []
 
     # ─── COVER PAGE ───────────────────────────────────────────────
-    logo = 'assets/moi_uni_logo/moi_logo.png'
+    logo = 'assets/moi_uni_logo.png'
     if os.path.exists(logo):
         img = RLImage(logo, width=1.4*inch, height=1.4*inch)
         img.hAlign = 'CENTER'
@@ -538,4 +542,4 @@ def generate(output='Mourice_BBM_453_CAT.pdf'):
 
 
 if __name__ == '__main__':
-    generate('Mourice_BBM_453_CAT.pdf')
+    generate('files/Mourice_BBM_453_CAT.pdf')

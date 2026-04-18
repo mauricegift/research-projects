@@ -4,6 +4,10 @@ Generate comprehensive research project document for James Ngovi
 Moi University - Bachelor of Business Management (BIT)
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 from docx import Document
 from docx.shared import Pt, Inches, Cm, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK
@@ -202,7 +206,7 @@ def create_docx():
     logo_para.paragraph_format.space_before = Pt(18)
     logo_para.paragraph_format.space_after = Pt(6)
     logo_para.paragraph_format.line_spacing_rule = WD_LINE_SPACING.SINGLE
-    logo_para.add_run().add_picture('assets/moi_uni_logo/moi_logo.png', width=Inches(1.5))
+    logo_para.add_run().add_picture('assets/moi_uni_logo.png', width=Inches(1.5))
 
     tp('MOI UNIVERSITY', size=14, bold=True, space_before=4, space_after=2)
     tp('SCHOOL OF BUSINESS AND ECONOMICS', size=13, bold=True, space_before=2, space_after=2)
@@ -2289,7 +2293,7 @@ def create_docx():
     add_body_paragraph(doc, 'THANK YOU FOR YOUR PARTICIPATION!')
     
     # Save
-    output_path = 'James_Ngovi_Research_Project.docx'
+    output_path = 'files/James_Ngovi_Research_Project.docx'
     doc.save(output_path)
     print(f'Successfully created: {output_path}')
     return output_path

@@ -8,6 +8,10 @@ Department: Management Science and Entrepreneurship
 March 2026
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 import os
 import subprocess
 from docx import Document
@@ -342,7 +346,7 @@ def generate():
     p_logo.paragraph_format.space_before = Pt(0)
     p_logo.paragraph_format.space_after = Pt(6)
     try:
-        p_logo.add_run().add_picture('assets/moi_uni_logo/moi_logo.png', width=Inches(1.4))
+        p_logo.add_run().add_picture('assets/moi_uni_logo.png', width=Inches(1.4))
     except Exception:
         pass
 
@@ -1292,16 +1296,19 @@ def generate():
 
     set_section_page_numbering(doc.sections[-1], 'decimal', 1)
     add_centered_page_numbers(doc)
-    doc.save('Mourice_BBM_Annex_Project.docx')
+    doc.save('files/Mourice_BBM_Annex_Project.docx')
     print('DOCX saved: Mourice_BBM_Annex_Project.docx')
 
 
 def convert_to_pdf():
     """Convert DOCX to PDF using LibreOffice headless."""
-    docx = 'Mourice_BBM_Annex_Project.docx'
+    import shutil
+    docx = 'files/Mourice_BBM_Annex_Project.docx'
+    soffice = (shutil.which('libreoffice') or shutil.which('soffice')
+               or '/nix/store/0pa3zy5lid4paiw9miafpvjkjvlmxfgz-libreoffice-25.2.3.2-wrapped/bin/libreoffice')
     subprocess.run([
-        'libreoffice', '--headless', '--convert-to', 'pdf',
-        '--outdir', '.', docx
+        soffice, '--headless', '--convert-to', 'pdf',
+        '--outdir', 'files', docx
     ], check=True, capture_output=True, timeout=120)
     print('PDF saved: Mourice_BBM_Annex_Project.pdf')
 
@@ -1309,7 +1316,7 @@ def convert_to_pdf():
 def verify_pdf():
     """Verify pagination, blank pages, and TOC alignment."""
     import fitz
-    pdf = 'Mourice_BBM_Annex_Project.pdf'
+    pdf = 'files/Mourice_BBM_Annex_Project.pdf'
     doc = fitz.open(pdf)
     print(f'Total PDF pages: {len(doc)}')
 

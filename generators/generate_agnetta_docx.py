@@ -13,6 +13,12 @@ Adapted from source documents with:
   - Moi University formatting identical to Calvince's project
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import shutil as _shutil
+_SOFFICE = (_shutil.which("libreoffice") or _shutil.which("soffice") or "/nix/store/0pa3zy5lid4paiw9miafpvjkjvlmxfgz-libreoffice-25.2.3.2-wrapped/bin/libreoffice")
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 from docx import Document
 from docx.shared import Pt, Inches, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK
@@ -24,7 +30,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 
-LOGO_PATH = 'assets/moi_uni_logo/moi_logo.png'
+LOGO_PATH = 'assets/moi_uni_logo.png'
 FONT_NAME = 'Liberation Serif'
 
 
@@ -1088,7 +1094,7 @@ def create_docx():
     body(doc, '4. Effective liquidity risk management affects business returns positively  [5] [4] [3] [2] [1]')
 
     add_page_numbers(doc)
-    fn = 'Agnetta_Opisa_Research_Project.docx'
+    fn = 'files/Agnetta_Opisa_Research_Project.docx'
     doc.save(fn)
     print(f'DOCX saved: {fn}')
     return fn
@@ -1099,7 +1105,7 @@ def convert_to_pdf(docx_path):
     env = os.environ.copy()
     env['HOME'] = '/tmp'
     result = subprocess.run(
-        ['libreoffice', '--headless', '--convert-to', 'pdf', '--outdir', '.', docx_path],
+        [_SOFFICE, '--headless', '--convert-to', 'pdf', '--outdir', 'files', docx_path],
         capture_output=True, text=True, env=env, timeout=120
     )
     if result.returncode != 0:

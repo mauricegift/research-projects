@@ -5,6 +5,10 @@ Moi University - Management of Financial Institutions
 Font: Times New Roman 12pt, 1.5 line spacing
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, PageBreak, HRFlowable
 )
@@ -74,7 +78,7 @@ def bullet(bold_label, text):
     return P(f'<b>{bold_label}</b> {text}', 'bullet')
 
 
-def generate_cat_pdf(output='Calvince_BBM_415_CAT.pdf'):
+def generate_cat_pdf(output='files/Calvince_BBM_415_CAT.pdf'):
     doc = SimpleDocTemplate(
         output,
         pagesize=A4,
@@ -88,7 +92,7 @@ def generate_cat_pdf(output='Calvince_BBM_415_CAT.pdf'):
 
     # ======================== COVER PAGE ========================
     # Logo
-    logo_path = 'assets/moi_uni_logo/moi_logo.png'
+    logo_path = 'assets/moi_uni_logo.png'
     if os.path.exists(logo_path):
         img = RLImage(logo_path, width=1.4*inch, height=1.4*inch)
         img.hAlign = 'CENTER'
@@ -530,4 +534,4 @@ def generate_cat_pdf(output='Calvince_BBM_415_CAT.pdf'):
 
 
 if __name__ == '__main__':
-    generate_cat_pdf('Calvince_BBM_415_CAT.pdf')
+    generate_cat_pdf('files/Calvince_BBM_415_CAT.pdf')

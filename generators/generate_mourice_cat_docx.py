@@ -4,6 +4,10 @@ Generate formatted DOCX for Mourice Onyango BBM 453 CAT
 Distributed Systems - Critical Analysis
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 from docx import Document
 from docx.shared import Pt, Inches, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK
@@ -88,7 +92,7 @@ def page_break(doc):
     p.add_run().add_break(WD_BREAK.PAGE)
 
 
-def generate(output='Mourice_BBM_453_CAT.docx'):
+def generate(output='files/Mourice_BBM_453_CAT.docx'):
     doc = Document()
     for section in doc.sections:
         section.top_margin    = Inches(1.0)
@@ -102,7 +106,7 @@ def generate(output='Mourice_BBM_453_CAT.docx'):
     set_spacing(logo, before=6, after=10, spacing=1.0)
     try:
         logo.add_run().add_picture(
-            'assets/moi_uni_logo/moi_logo.png', width=Inches(1.4))
+            'assets/moi_uni_logo.png', width=Inches(1.4))
     except Exception:
         pass
 
@@ -626,4 +630,4 @@ def generate(output='Mourice_BBM_453_CAT.docx'):
 
 
 if __name__ == '__main__':
-    generate('Mourice_BBM_453_CAT.docx')
+    generate('files/Mourice_BBM_453_CAT.docx')

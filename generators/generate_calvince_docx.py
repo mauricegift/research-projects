@@ -14,6 +14,10 @@ Updated version with:
   - Chapter 5: 5.2.1 Theoretical Framework through 5.2.6 Overall Model
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 from docx import Document
 from docx.shared import Pt, Inches, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK
@@ -26,7 +30,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import io
 
-LOGO_PATH = 'assets/moi_uni_logo/moi_logo.png'
+LOGO_PATH = 'assets/moi_uni_logo.png'
 
 
 def set_cell_background(cell, fill_color):
@@ -1279,7 +1283,7 @@ def create_docx():
 
     add_page_numbers(doc)
 
-    output_path = 'Calvince_Odhiambo_Research_Project.docx'
+    output_path = 'files/Calvince_Odhiambo_Research_Project.docx'
     doc.save(output_path)
     print(f'DOCX saved: {output_path}')
     return output_path

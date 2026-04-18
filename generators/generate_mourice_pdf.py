@@ -5,6 +5,10 @@ Title: Effectiveness of Software Development on Moi University Students' Learnin
 Mourice Onyango | BBM/1891/22 | Dr. Kiyeng Chumo | March 2026
 """
 
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+_os.chdir(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.lib.colors import black, white, HexColor
@@ -205,7 +209,7 @@ def make_grouped_bar(categories, series_data, series_labels, title, width=5.8, h
     return d
 
 
-def generate_pdf(output_path='Mourice_BBM_Annex_Project.pdf', _page_data=None, _anchor_reg=None):
+def generate_pdf(output_path='files/Mourice_BBM_Annex_Project.pdf', _page_data=None, _anchor_reg=None):
 
     def on_page(canvas, doc):
         """Cover=no number, front matter=Roman (i,ii,iii…), body=Arabic (1,2,3…)."""
@@ -273,7 +277,7 @@ def generate_pdf(output_path='Mourice_BBM_Annex_Project.pdf', _page_data=None, _
     story += [Sp(6)]
     try:
         from reportlab.platypus import Image
-        img = Image('assets/moi_uni_logo/moi_logo.png',
+        img = Image('assets/moi_uni_logo.png',
                     width=1.3 * inch, height=1.3 * inch)
         img.hAlign = 'CENTER'
         story.append(img)
@@ -963,5 +967,5 @@ if __name__ == '__main__':
     page_data2 = dict(anchor_reg1)
     page_data2['ch1_physical'] = ch1_phys
 
-    generate_pdf('Mourice_BBM_Annex_Project.pdf', _page_data=page_data2, _anchor_reg=None)
+    generate_pdf('files/Mourice_BBM_Annex_Project.pdf', _page_data=page_data2, _anchor_reg=None)
     print('Two-pass render complete.')
