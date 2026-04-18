@@ -34,6 +34,7 @@ format:
 | Calvince | `Calvince_BBM_415_CAT.docx` / `.pdf` |
 | Agnetta Opisa | `Agnetta_Opisa_Research_Project.docx` / `.pdf` |
 | James Ngovi | `James_Ngovi_Research_Project.docx` / `.pdf` |
+| Faith Awuor Okumu (BBM/1491/23) | `Faith_Okumu_Research_Project.docx` / `.pdf` — Effect of Audit Committee Characteristics on Firm Performance: A Case of Listed Banks in Kenya |
 
 ## Repository layout
 
@@ -60,6 +61,9 @@ format:
 ├── generate_research.py            # James Ngovi research project
 ├── generate_pdf.py                 # generic DOCX → PDF helper
 │
+├── generate_faith_docx.py          # Faith Okumu research project — DOCX
+├── generate_faith_pdf.py           # Faith Okumu research project — PDF
+│
 ├── mourice_figures/                # PNG diagrams (architecture, ER, use case, deployment, sequence)
 │   ├── fig_6_1_architecture.png
 │   ├── fig_6_2_er_diagram.png
@@ -81,7 +85,9 @@ format:
     ├── Agnetta_Opisa_Research_Project.docx
     ├── Agnetta_Opisa_Research_Project.pdf
     ├── James_Ngovi_Research_Project.docx
-    └── James_Ngovi_Research_Project.pdf
+    ├── James_Ngovi_Research_Project.pdf
+    ├── Faith_Okumu_Research_Project.docx
+    └── Faith_Okumu_Research_Project.pdf
 ```
 
 ## Prerequisites
@@ -125,6 +131,10 @@ python3 generate_agnetta_docx.py
 
 # James Ngovi
 python3 generate_research.py
+
+# Faith Okumu — full research project (DOCX + PDF)
+python3 generate_faith_docx.py
+python3 generate_faith_pdf.py
 
 # (Re)build the system diagrams that appear in Mourice's Chapter Six
 python3 generate_mourice_diagrams.py
