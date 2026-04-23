@@ -31,6 +31,8 @@ format:
 | Mourice Onyango | `Mourice_BBM_453_CAT.docx` / `.pdf` — Distributed Systems CAT |
 | Mourice Onyango | `Mourice_BBM_433_CAT_1.docx` / `.pdf` — Retail and Merchandise CAT 1 (Naivas digital merchandising; Vivo Fashion app conversion) |
 | Mourice Onyango | `Mourice_BBM_433_CAT_2.docx` / `.pdf` — Retail and Merchandise CAT 2 (Hotpoint phygital showroom; Quickmart omnichannel) |
+| Mourice Onyango | `Mourice_BBM_433_Notes_Summary.pdf` — Comprehensive elite revision summary covering all 9 BBM 433 topics with Kenyan examples |
+| Mourice Onyango | `Mourice_BBM_433_Past_Papers_Answers.pdf` — Detailed model answers to BBM 433 past papers (April 2024, April 2023, July 2025) |
 | Sophie | `Sophie_Research_Project.docx` / `.pdf` |
 | Calvince Odhiambo | `Calvince_Odhiambo_Research_Project.docx` / `.pdf` |
 | Calvince | `Calvince_BBM_415_CAT.docx` / `.pdf` |
@@ -63,7 +65,9 @@ format:
 │   ├── generate_mourice_pdf.py         # Mourice main project — PDF
 │   ├── generate_mourice_cat_docx.py    # Mourice BBM 453 CAT — DOCX
 │   ├── generate_mourice_cat_pdf.py     # Mourice BBM 453 CAT — PDF
-│   ├── generate_mourice_bbm433_cats.py # Mourice BBM 433 CAT 1 + CAT 2 (DOCX + PDF)
+│   ├── generate_mourice_bbm433_cats.py        # Mourice BBM 433 CAT 1 + CAT 2 (DOCX + PDF)
+│   ├── generate_mourice_bbm433_summary.py     # Mourice BBM 433 elite notes summary (PDF only)
+│   ├── generate_mourice_bbm433_pastpapers.py  # Mourice BBM 433 past-paper detailed answers (PDF only)
 │   ├── generate_sophie_research.py     # Sophie — DOCX
 │   ├── generate_sophie_pdf.py          # Sophie — PDF
 │   ├── generate_calvince_docx.py       # Calvince research project — DOCX
@@ -81,6 +85,8 @@ format:
     ├── Mourice_BBM_453_CAT.docx / .pdf
     ├── Mourice_BBM_433_CAT_1.docx / .pdf
     ├── Mourice_BBM_433_CAT_2.docx / .pdf
+    ├── Mourice_BBM_433_Notes_Summary.pdf
+    ├── Mourice_BBM_433_Past_Papers_Answers.pdf
     ├── Sophie_Research_Project.docx / .pdf
     ├── Calvince_Odhiambo_Research_Project.docx / .pdf
     ├── Calvince_BBM_415_CAT.docx / .pdf

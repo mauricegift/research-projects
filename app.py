@@ -32,6 +32,8 @@ RUN_ORDER = [
     'generate_mourice_cat_docx.py',
     'generate_mourice_cat_pdf.py',
     'generate_mourice_bbm433_cats.py',
+    'generate_mourice_bbm433_summary.py',
+    'generate_mourice_bbm433_pastpapers.py',
     'generate_sophie_research.py',
     'generate_sophie_pdf.py',
     'generate_calvince_docx.py',
