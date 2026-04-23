@@ -28,7 +28,9 @@ format:
 | Student | Document |
 | --- | --- |
 | Mourice Onyango (BBM/1891/22) | `Mourice_BBM_Annex_Project.docx` / `.pdf` — Effectiveness of Software Development on Moi University Students' Learning Behaviour |
-| Mourice Onyango | `Mourice_BBM_453_CAT.docx` / `.pdf` |
+| Mourice Onyango | `Mourice_BBM_453_CAT.docx` / `.pdf` — Distributed Systems CAT |
+| Mourice Onyango | `Mourice_BBM_433_CAT_1.docx` / `.pdf` — Retail and Merchandise CAT 1 (Naivas digital merchandising; Vivo Fashion app conversion) |
+| Mourice Onyango | `Mourice_BBM_433_CAT_2.docx` / `.pdf` — Retail and Merchandise CAT 2 (Hotpoint phygital showroom; Quickmart omnichannel) |
 | Sophie | `Sophie_Research_Project.docx` / `.pdf` |
 | Calvince Odhiambo | `Calvince_Odhiambo_Research_Project.docx` / `.pdf` |
 | Calvince | `Calvince_BBM_415_CAT.docx` / `.pdf` |
@@ -59,8 +61,9 @@ format:
 │   ├── generate_mourice_diagrams.py    # builds the system diagrams used in Mourice's project
 │   ├── generate_mourice_docx.py        # Mourice main project — DOCX
 │   ├── generate_mourice_pdf.py         # Mourice main project — PDF
-│   ├── generate_mourice_cat_docx.py    # Mourice CAT — DOCX
-│   ├── generate_mourice_cat_pdf.py     # Mourice CAT — PDF
+│   ├── generate_mourice_cat_docx.py    # Mourice BBM 453 CAT — DOCX
+│   ├── generate_mourice_cat_pdf.py     # Mourice BBM 453 CAT — PDF
+│   ├── generate_mourice_bbm433_cats.py # Mourice BBM 433 CAT 1 + CAT 2 (DOCX + PDF)
 │   ├── generate_sophie_research.py     # Sophie — DOCX
 │   ├── generate_sophie_pdf.py          # Sophie — PDF
 │   ├── generate_calvince_docx.py       # Calvince research project — DOCX
@@ -76,6 +79,8 @@ format:
 └── files/                          # All generated documents land here
     ├── Mourice_BBM_Annex_Project.docx / .pdf
     ├── Mourice_BBM_453_CAT.docx / .pdf
+    ├── Mourice_BBM_433_CAT_1.docx / .pdf
+    ├── Mourice_BBM_433_CAT_2.docx / .pdf
     ├── Sophie_Research_Project.docx / .pdf
     ├── Calvince_Odhiambo_Research_Project.docx / .pdf
     ├── Calvince_BBM_415_CAT.docx / .pdf
