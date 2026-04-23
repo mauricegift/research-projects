@@ -22,6 +22,9 @@ _SOFFICE = (
 from docx import Document
 from docx.shared import Pt, Inches, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING, WD_BREAK
+from docx.enum.table import WD_ALIGN_VERTICAL
+from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
 
 
 # ────────────────────────────────────────────────────────────────────────────
@@ -131,14 +134,52 @@ def add_cover(doc, course_code, course_title, assignment, sub_date, marks):
         ('NAME',            'MOURICE ONYANGO'),
         ('REG NUMBER',      'BBM/1891/22'),
     ]
-    for label, value in details:
-        p = doc.add_paragraph()
-        r1 = p.add_run(f'{label:<18}: ')
-        set_run(r1, bold=True, size=12)
-        r2 = p.add_run(value)
-        set_run(r2, size=12)
-        p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-        set_spacing(p, before=0, after=7, spacing=1.0)
+    table = doc.add_table(rows=len(details), cols=3)
+    table.autofit = False
+    table.allow_autofit = False
+    col_widths_dxa = (2808, 240, 5952)  # twentieths of a point: 1.95" / 0.167" / 4.133"
+    tblPr = table._tbl.tblPr
+    tblW = OxmlElement('w:tblW')
+    tblW.set(qn('w:w'), str(sum(col_widths_dxa)))
+    tblW.set(qn('w:type'), 'dxa')
+    tblPr.append(tblW)
+    tblLayout = OxmlElement('w:tblLayout')
+    tblLayout.set(qn('w:type'), 'fixed')
+    tblPr.append(tblLayout)
+    tblCellMar = OxmlElement('w:tblCellMar')
+    for side in ('top', 'left', 'bottom', 'right'):
+        m = OxmlElement(f'w:{side}')
+        m.set(qn('w:w'), '20')
+        m.set(qn('w:type'), 'dxa')
+        tblCellMar.append(m)
+    tblPr.append(tblCellMar)
+    grid = table._tbl.find(qn('w:tblGrid'))
+    if grid is not None:
+        for child in list(grid):
+            grid.remove(child)
+        for w in col_widths_dxa:
+            gc = OxmlElement('w:gridCol')
+            gc.set(qn('w:w'), str(w))
+            grid.append(gc)
+    for row in table.rows:
+        for cell, w in zip(row.cells, col_widths_dxa):
+            tcW = cell._tc.tcPr.find(qn('w:tcW'))
+            if tcW is None:
+                tcW = OxmlElement('w:tcW')
+                cell._tc.tcPr.append(tcW)
+            tcW.set(qn('w:w'), str(w))
+            tcW.set(qn('w:type'), 'dxa')
+            cell.vertical_alignment = WD_ALIGN_VERTICAL.TOP
+            for p in cell.paragraphs:
+                set_spacing(p, before=0, after=4, spacing=1.0)
+    for i, (label, value) in enumerate(details):
+        c_label, c_colon, c_value = table.rows[i].cells
+        rL = c_label.paragraphs[0].add_run(label)
+        set_run(rL, bold=True, size=12)
+        rC = c_colon.paragraphs[0].add_run(':')
+        set_run(rC, bold=True, size=12)
+        rV = c_value.paragraphs[0].add_run(value)
+        set_run(rV, size=12)
 
     page_break(doc)
 
@@ -175,7 +216,7 @@ def build_cat1(output='files/Mourice_BBM_433_CAT_1.docx'):
     add_cover(
         doc,
         course_code='BBM 433',
-        course_title='RETAIL AND MERCHANDISE',
+        course_title='RETAIL AND MERCHANDISE MANAGEMENT',
         assignment='CAT 1',
         sub_date='24TH APRIL 2026',
         marks='30 MARKS',
@@ -400,7 +441,7 @@ def build_cat2(output='files/Mourice_BBM_433_CAT_2.docx'):
     add_cover(
         doc,
         course_code='BBM 433',
-        course_title='RETAIL AND MERCHANDISE',
+        course_title='RETAIL AND MERCHANDISE MANAGEMENT',
         assignment='CAT 2',
         sub_date='24TH APRIL 2026',
         marks='30 MARKS',
